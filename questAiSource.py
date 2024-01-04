@@ -114,9 +114,9 @@ try:
         # The maximum length of the response
         max_output_tokens=1000,
     )
-    
+
     #prints the result
-    print(completion.result)
+    #print(completion.result)
 except: 
     print("Error with API key or network")
 
@@ -125,19 +125,18 @@ sentences = sent_tokenize(completion.result)
 desired_sentences = [sentence for sentence in sentences if "?" in sentence]
 
 # Print extracted questions
-for sentence in desired_sentences:
-    print(sentence)
+#for sentence in desired_sentences:
+    #print(sentence)
 
 #Logic for arranging questions into sections
+questionNo=1
 if(sum(questionNumber)==len(desired_sentences)):
     for i in range(0,sectionNumber):
         k=i+1
         print("\nSection "+ str(k));
    
         for j in range(questionNumber[i]):
-            print(desired_sentences[int(j)]);
+            print(str(questionNo)+"."+desired_sentences[int(j)]);
+            questionNo+=1
 else:
     print("Error!! Recheck the section number and questions ")
-
-
-
