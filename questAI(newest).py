@@ -1,7 +1,7 @@
 import pprint
 import google.generativeai as palm
 import nltk
-
+from nltk.tokenize import sent_tokenize
 palm.configure(api_key='AIzaSyCipXE392BMdk8cDQGFIYjsM4Xi9Pwk9Jo')
 
 
@@ -91,7 +91,7 @@ markSection    = [1,2,5]
 sectionNumber = 3;
 finalPrompt=''
 prompts = []
-prompts.append("Create questions on the criteria based on the text "+textbook+" which is from a textbook.There should not be similar questions and give just questions. The criterias are:")
+prompts.append("Create questions on the criteria based on the text "+textbook+" which is from a textbook.There should not be similar questions and give just questions with no section headings.The criterias are:")
 for i in range(0,sectionNumber):
     k=i+1
     prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having mark "+str(markSection[i])+".")
@@ -109,71 +109,13 @@ completion = palm.generate_text(
 )
 print(completion.result)
 
+sentences = sent_tokenize(completion.result)
 
-# In[ ]:
+# Extract sentences containing the word "Python"
+desired_sentences = [sentence for sentence in sentences if "?" in sentence]
 
-
-print(len(questions))
-for i in questions:
-    print(i)
-
-
-# In[ ]:
+# Print the desired sentences
+for sentence in desired_sentences:
+    print(sentence)
 
 
-if(sum(questionNumber)==len(desired_sentences)):
-    for i in range(0,sectionNumber):
-        k=i+1
-        print("\nSection "+ str(k));
-   
-        for j in range(questionNumber[i]):
-            print(desired_sentences[int(j)]);
-else:
-    print("Error!! Recheck the section number and questions ")
-
-
-    
-
-
-# In[ ]:
-
-
-print(questionNumber)
-print(markSection)
-
-
-
-if(sum(questionNumber)==len(desired_sentences)):
-    for i in range(0,sectionNumber):
-        k=i+1
-        print("\nSection "+ str(k));
-   
-        for j in range(questionNumber[i]):
-            print(desired_sentences[int(j)]);
-
-else:
-    print("Error!! Recheck the section number and questions ")
-
-
-
-questionNumber=[]
-markSection=[]
-sectionNumber = 3;
-
-questionNumber.append(8);
-questionNumber.append(5);
-questionNumber.append(2);
-
-markSection.append(1);
-markSection.append(2);
-markSection.append(5);
-
-if(sum(questionNumber)==len(desired_sentences)):
-    for i in range(0,sectionNumber):
-        k=i+1
-        print("\nSection "+ str(k));
-   
-        for j in range(questionNumber[i]):
-            print(desired_sentences[int(j)]);
-else:
-    print("Error!! Recheck the section number and questions ")
