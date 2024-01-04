@@ -111,11 +111,22 @@ print(completion.result)
 
 sentences = sent_tokenize(completion.result)
 
-# Extract sentences containing the word "Python"
+
 desired_sentences = [sentence for sentence in sentences if "?" in sentence]
 
 # Print the desired sentences
 for sentence in desired_sentences:
     print(sentence)
+
+if(sum(questionNumber)==len(desired_sentences)):
+    for i in range(0,sectionNumber):
+        k=i+1
+        print("\nSection "+ str(k));
+   
+        for j in range(questionNumber[i]):
+            print(desired_sentences[int(j)]);
+else:
+    print("Error!! Recheck the section number and questions ")
+
 
 
