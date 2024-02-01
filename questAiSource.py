@@ -33,7 +33,7 @@ try:
     development team draws up the product specification on its own. Of
     course, it may base its design discretion on feedbacks collected from a
     large number of users. Typically, eac h software product is targetted to
-    some market segment (set of users). Many companies fin d it
+    some market segment (set of users). Many companies find it
     advantageous to develop product lines that target slightly different
     market segments based on variations of essentially the same software.
     For example, Microsoft targets desktops and laptops through its
@@ -97,7 +97,7 @@ try:
 
     finalPrompt='' #Final combined prompt
     prompts = [] #Holds all the prompts for each section 
-    prompts.append("Create questions on the criteria based on the text "+textbook+" which is from a textbook.There should not be similar questions and give just questions with no section headings.The criterias are:")
+    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions. Give just questions with no section headings.The criterias are:")
     for i in range(0,sectionNumber):
         k=i+1
         prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having mark "+str(markSection[i])+".")
@@ -105,7 +105,7 @@ try:
     #Joins all the individual prompts into single prompt
     for j in prompts:
         finalPrompt+=j
-    
+    #print(finalPrompt)
     #Executes the prompt 
     completion = palm.generate_text(
         model=model,
@@ -116,7 +116,7 @@ try:
     )
 
     #prints the result
-    #print(completion.result)
+    print(completion.result)
 except: 
     print("Error with API key or network")
 
@@ -129,7 +129,7 @@ desired_sentences = [sentence for sentence in sentences if "?" in sentence]
     #print(sentence)
 
 #Logic for arranging questions into sections
-questionNo=1
+questionNo=1 #question number variable
 if(sum(questionNumber)==len(desired_sentences)):
     for i in range(0,sectionNumber):
         k=i+1
@@ -140,3 +140,5 @@ if(sum(questionNumber)==len(desired_sentences)):
             questionNo+=1
 else:
     print("Error!! Recheck the section number and questions ")
+
+#Code for printing as question paper format
