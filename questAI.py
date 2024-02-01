@@ -19,6 +19,12 @@ try:
     examName = "END SEMESTER EXAM 2024"
     program  =  "SEMESTER 3 : INTEGRATED M.Sc. PROGRAMME COMPUTER SCIENCE"
     subject  = "COURSE : 21UP3CPSTA01 :PROBABILITY AND STATISTICS"
+
+    #This holds the number of questions and mark for each question in each section.
+    #This should be made as user input
+    questionNumber = [10,6,4]
+    markSection    = [1,2,5]
+    sectionNumber = 3
     
 
 
@@ -100,11 +106,7 @@ try:
     hand, outsourced projects are usually less risky, but fetch only one time
     revenue to the developing company."""
     
-    #This holds the number of questions and mark for each question in each section.
-    #This should be made as user input
-    questionNumber = [10,6,4]
-    markSection    = [1,2,5]
-    sectionNumber = 3
+  
 
     finalPrompt='' #Final combined prompt
     prompts = [] #Holds all the prompts for each section 
@@ -134,6 +136,7 @@ except:
 #This extracts questions only from result
 sentences = sent_tokenize(completion.result)
 desired_sentences = [sentence for sentence in sentences if "?" in sentence]
+desired_sentences = [sentence for sentence in sentences if "." in sentence]
 
 # Print extracted questions
 #for sentence in desired_sentences:
@@ -176,7 +179,7 @@ def create_question_paper(file_path):
     content.append(Paragraph(program , heading_style))
     content.append(Spacer(1, 10))  # Increase spacing above the second section heading
 
-    content.append(Paragr, heading_style))
+    content.append(Paragraph(subject, heading_style))
     content.append(Spacer(1, 10))  # Increase spacing above the third section heading
 
     # Add time and marks information with time left-aligned and marks right-aligned on the same line
