@@ -6,7 +6,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-palm.configure(api_key='AIzaSyCipXE392BMdk8cDQGFIYjsM4Xi9Pwk9Jo')
+import re
+palm.configure(api_key='AIzaSyBkjjQPAN4g1K6_8T-aN3fMt2FWJ5fxexw')
 
 #Code for connecting using API and running prompts
 try:
@@ -110,7 +111,7 @@ try:
 
     finalPrompt='' #Final combined prompt
     prompts = [] #Holds all the prompts for each section 
-    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions. Give just questions with no section headings.The criterias are:")
+    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions. Give ? as an indicator after each and every question in the question end.The criterias are:")
     for i in range(0,sectionNumber):
         k=i+1
         prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having mark "+str(markSection[i])+".")
@@ -133,14 +134,24 @@ try:
 except: 
     print("Error with API key or network")
 
+
+
 #This extracts questions only from result
-sentences = sent_tokenize(completion.result)
-desired_sentences = [sentence for sentence in sentences if "?" in sentence]
-desired_sentences = [sentence for sentence in sentences if "." in sentence]
+# sentences = sent_tokenize(completion.result)
+# desired_sentences = [sentence for sentence in sentences if "?" in sentence]
+
+#MEthod from chatgpt to extract questions
+pattern = r'\d+\.\s(.+?)(?:\?|$)'
+# Find all matches using the pattern
+matches = re.findall(pattern, completion.result)
+
+# Display the extracted questions
+questions = [match.strip() for match in matches]
+print(questions)
 
 # Print extracted questions
 #for sentence in desired_sentences:
-    #print(sentence)
+#    print(sentence)
 
 ##Question Paper Code##
 
