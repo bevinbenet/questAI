@@ -111,15 +111,15 @@ try:
 
     finalPrompt='' #Final combined prompt
     prompts = [] #Holds all the prompts for each section 
-    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions. Give ? as an indicator after each and every question in the question end.The criterias are:")
+    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions.The criterias are:")
     for i in range(0,sectionNumber):
         k=i+1
-        prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having mark "+str(markSection[i])+".")
-
+        prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
+    prompts.append("Give each section as individual python list.Also give only correct number of questions in each section.")
     #Joins all the individual prompts into single prompt
     for j in prompts:
         finalPrompt+=j
-    #print(finalPrompt)
+    print(finalPrompt)
     #Executes the prompt 
     completion = palm.generate_text(
         model=model,
@@ -141,17 +141,43 @@ except:
 # desired_sentences = [sentence for sentence in sentences if "?" in sentence]
 
 #MEthod from chatgpt to extract questions
-pattern = r'\d+\.\s(.+?)(?:\?|$)'
-# Find all matches using the pattern
-matches = re.findall(pattern, completion.result)
+# Define a pattern to match section headings and questions
 
-# Display the extracted questions
-questions = [match.strip() for match in matches]
-print(questions)
 
 # Print extracted questions
 #for sentence in desired_sentences:
 #    print(sentence)
+# Result of chatgpt 
+
+section_1_questions = [
+    "What distinguishes software products from software services?",
+    "Describe the process a software development company follows when developing a generic software product.",
+    "How do companies target different market segments with variations of essentially the same software?",
+    "Provide examples of generic software products mentioned in the text.",
+    "Explain why it's advantageous for companies to develop product lines targeting different market segments.",
+    "What role do user feedbacks play in developing generic software products?",
+    "Why do companies invest in developing software products?",
+    "Discuss the revenue model associated with generic software products.",
+    "What factors influence the profitability of companies developing software products?",
+    "How does the risk associated with developing software products differ from that of software services?"
+]
+
+section_2_questions = [
+    "What are the key characteristics of a customized software?",
+    "How do companies typically develop customized software?",
+    "Explain the concept of code reuse in customized software development.",
+    "Why is outsourcing a viable option for some software development projects?",
+    "Discuss the factors that may lead a company to outsource parts of its development work.",
+    "What are the typical size and timeframe for outsourced projects?"
+]
+
+# Section 3: Impact on Profitability
+section_3_questions = [
+    "How does developing generic software products affect a company's revenue stream?",
+    "What are the advantages and disadvantages of developing generic software products?",
+    "Explain the revenue model associated with outsourced projects.",
+    "Discuss the risks and rewards associated with outsourcing parts of software development projects."
+]
 
 ##Question Paper Code##
 
