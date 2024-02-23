@@ -1,20 +1,23 @@
 import pprint
-import google.generativeai as palm
+import json
+import google.generativeai as genai
 import nltk
 from nltk.tokenize import sent_tokenize
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-import re
-palm.configure(api_key='AIzaSyBkjjQPAN4g1K6_8T-aN3fMt2FWJ5fxexw')
+
+genai.configure(api_key="AIzaSyA0VeSCntKzB9PVXxK4bujq1JCwiGsVT_8")
 
 #Code for connecting using API and running prompts
 try:
     #API model details
-    models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
-    model = models[0].name
-    print(model)
+    generation_config = {
+    "temperature": 1,
+    "max_output_tokens": 5000,
+    }
+    model = genai.GenerativeModel(model_name="gemini-pro", generation_config=generation_config)
 except: 
     print("Error with API key or network")
 #Exam Details
@@ -32,81 +35,48 @@ sectionNumber = 3
 
 #Text based on which question is created.
 textbook = """
-Types of Software Development Projects
-A software development company is typically structured into a large
-number of teams that handle various types of software development
-projects. These software development projects concern the
-development of either software product or some software service. In
-the following subsections, we distinguish between these two types of
-software development projects.
-Software products
-We all know of a variety of software such as Microsoft’s Windows and the
-Office suite, Oracle DBMS, software accompanying a camcorder or a
-laser printer, etc. These software are available off-the-shelf for
-purchase and are used by a diverse range of customers. These are
-called generic software products since many users essentially use the
-same software. These can be purchased off-the-shelf by the customers.
-When a software development company wishes to develop a generic
-product, it first determines the features or functionalities that would be
-useful to a large cross section of users. Based on these, the
-development team draws up the product specification on its own. Of
-course, it may base its design discretion on feedbacks collected from a
-large number of users. Typically, eac h software product is targetted to
-some market segment (set of users). Many companies find it
-advantageous to develop product lines that target slightly different
-market segments based on variations of essentially the same software.
-For example, Microsoft targets desktops and laptops through its
-Windows 8 operating system, while it targets high-end mobile handsets
-through i t s Windows mobile operating system, and targets servers
-through its Windows server operating system.
-Software services
-A software service usually involves either development of a customised
-software or development of some specific part of a software in an
-outsourced mode. A customised software is developed according to the
-specification drawn up by one or at most a few customers. These need
-to be developed in a short time frame (typically a couple of months),
-and at the same time the development cost must be low. Usually, a
-developing company develops customised software by tailoring some of
-its existing software. For example, when an academic institution wishes
-to have a software that would automate its important activities such as
-student registration, grading, and fee collection; companies would
-normally develop such a software as a customised product. This means
-that for developing a customised software, the developing company
-would normally tailor one of its existing software products that it might
-have developed in the past for some other academic institution.
-In a customised software development project, a large part of the software
-is reused from the code of related software that the company might have
-already developed. Usually, only a small part of the software that is specific
-to some client is developed. For example, suppose a software development
-organisation has developed an academic automation software that
-automates the student registration, grading, Establishment, hostel and other
-aspects of an academic institution. When a new educational institution
-requests for developing a software for automation of its activities, a large
-part of the existing software would be reused. However, a small part of the
-existing code may be modified to take into account small variations in the
-required features. For example, a software might have been developed for an
-academic institute that offers only regular residential programs, the
-educational institute that has now requested for a software to automate its
-activities also offers a distance mode post graduate program where the
-teaching and sessional evaluations are done by the local centres.
-Another type of software service i s outsourced software. Sometimes, it can
-make good commercial sense for a company developing a large project to
-outsource some parts of its development work to other companies. The
-reasons behind such a decision may be many. For example, a company might
-consider the outsourcing option, if it feels that it does not have sufficient
-expertise to develop some specific parts of the software; or if it determines
-that some parts can be developed cost-effectively by another company. Since
-an outsourced project i s a small part of some larger project, outsourced
-projects are usually small in size and need to be completed within a few
-months or a few weeks of time.
-The types of development projects that are being undertaken by a
-company can have an impact on its profitability. For example, a company that
-has developed a generic software product usually gets an uninterrupted
-stream of revenue that is spread over several years. However, this entails
-substantial upfront investment in developing the software and any return on
-this investment is subject to the risk of customer acceptance. On the other
-hand, outsourced projects are usually less risky, but fetch only one time
-revenue to the developing company."""
+Regional Internet Service Providers
+Regional internet service providers or regional ISPs are smaller ISPs that are connected
+to one or more national ISPs. They are at the third level of the hierarchy with a smaller
+data rate.
+Local Internet Service Providers
+Local Internet service providers provide direct service to the end users. The local
+ISPs can be connected to regional ISPs or directly to national ISPs. Most end users are
+connected to the local ISPs. Note that in this sense, a local ISP can be a company that
+just provides Internet services, a corporation with a network that supplies services to its
+own employees, or a nonprofit organization, such as a college or a university, that runs
+its own network. Each of these local ISPs can be connected to a regional or national
+service provider.
+
+1.4 PROTOCOLS AND STANDARDS
+In this section, we define two widely used terms: protocols and standards. First, we
+define protocol, which is synonymous with rule. Then we discuss standards, which are
+agreed-upon rules.
+Protocols
+In computer networks, communication occurs between entities in different systems. An
+
+entity is anything capable of sending or receiving information. However, two entities can-
+not simply send bit streams to each other and expect to be understood. For communication
+
+to occur, the entities must agree on a protocol. A protocol is a set of rules that govern data
+communications. A protocol defines what is communicated, how it is communicated, and
+when it is communicated. The key elements of a protocol are syntax, semantics, and timing.
+o Syntax. The term syntax refers to the structure or format of the data, meaning the
+order in which they are presented. For example, a simple protocol might expect the
+first 8 bits of data to be the address of the sender, the second 8 bits to be the address
+of the receiver, and the rest of the stream to be the message itself.
+o Semantics. The word semantics refers to the meaning of each section of bits.
+How is a particular pattern to be interpreted, and what action is to be taken based
+on that interpretation? For example, does an address identify the route to be taken
+or the final destination of the message?
+o Timing. The term timing refers to two characteristics: when data should be sent
+and how fast they can be sent. For example, if a sender produces data at 100 Mbps
+but the receiver can process data at only 1 Mbps, the transmission will overload the
+receiver and some data will be lost.
+Standards
+Standards are essential in creating and maintaining an open and competitive market for
+equipment manufacturers and in guaranteeing national and international interoperability
+of data and telecommunications technology and processes. Standards provide guidelines"""
 
 
 
@@ -116,22 +86,30 @@ prompts.append("Create questions on the criteria based on the text \" "+textbook
 for i in range(0,sectionNumber):
     k=i+1
     prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
-prompts.append("Give each section as individual python list.Also give only correct number of questions in each section.")
+prompts.append("Give each section as individual python list.Also give only correct number of questions in each section. Give as JSON data format")
 #Joins all the individual prompts into single prompt
 for j in prompts:
     finalPrompt+=j
-print(finalPrompt)
+#print(finalPrompt)
 #Executes the prompt 
-completion = palm.generate_text(
-    model=model,
-    prompt=finalPrompt,
-    temperature=0,
-    # The maximum length of the response
-    max_output_tokens=1000,
-)
+prompt_parts = finalPrompt
+response = model.generate_content(prompt_parts)
+response1 = response.text
 
 #prints the result
-#print(completion.result)
+#print(response.text)
+#Using JSON code
+json_data = response1
+json_data = json_data.split('\n')[1:-1]
+json_data = '\n'.join(json_data)
+# Provided JSON-formatted string output
+# Parse the JSON string into a Python dictionary
+data = json.loads(json_data)
+
+questions = []
+for section in data.values():
+    for item in section:
+        questions.append(item["question"])
 
 #Prints Questions
 def create_question_paper(file_path, questions):
@@ -204,16 +182,7 @@ def create_question_paper(file_path, questions):
     doc.build(content)
 
 if __name__ == "__main__":
-    output_file = "questionPaper.pdf"
-    
-    # Extract questions from the string
-    question_string = completion.result
-
-    # Combine all questions into one list
-    all_questions = []
-    all_questions.extend([question.strip().strip('"') for question in question_string.split("questions1 = ")[1].split("]")[0].split(",")])
-    all_questions.extend([question.strip().strip('"') for question in question_string.split("questions2 = ")[1].split("]")[0].split(",")])
-    all_questions.extend([question.strip().strip('"') for question in question_string.split("questions3 = ")[1].split("]")[0].split(",")])
+    output_file = "questionPaper1.pdf"
 
     # Create the question paper
-    create_question_paper(output_file, all_questions)
+    create_question_paper(output_file, questions)
