@@ -71,5 +71,5 @@ def create_question_paper(file_path):
     doc.build(content)
 
 if __name__ == "__main__":
-    output_file = "output.pdf"
+    output_file = "questionPaper.pdf"
     create_question_paper(output_file)

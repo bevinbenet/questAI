@@ -2,7 +2,8 @@ import pprint
 import google.generativeai as palm
 import nltk
 from nltk.tokenize import sent_tokenize
-palm.configure(api_key='AIzaSyCipXE392BMdk8cDQGFIYjsM4Xi9Pwk9Jo')
+
+palm.configure(api_key='AIzaSyBkjjQPAN4g1K6_8T-aN3fMt2FWJ5fxexw')
 
 #Code for connecting using API and running prompts
 try:

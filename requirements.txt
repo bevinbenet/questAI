@@ -1,2 +1,3 @@
 !pip install -q google-generativeai
 !pip install nltk
+!pip install reportlab
