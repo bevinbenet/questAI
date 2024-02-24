@@ -27,9 +27,9 @@ subject  = "COURSE : 21UP3CPSTA01 :PROBABILITY AND STATISTICS"
 
 #This holds the number of questions and mark for each question in each section.
 #This should be made as user input
-questionNumber = [15,10,6,1]
-markSection    = [1,10,15,25]
-sectionNumber = 4
+questionNumber = [15,10,7]
+markSection    = [1,10,15]
+sectionNumber = 3
 
 
 
@@ -82,12 +82,11 @@ of data and telecommunications technology and processes. Standards provide guide
 
 finalPrompt='' #Final combined prompt
 prompts = [] #Holds all the prompts for each section 
-prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions.The criterias are:")
+prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique .The criterias are:")
 for i in range(0,sectionNumber):
-    print(i)
     k=i+1
     prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
-prompts.append("Also give only correct number of questions in each section. Give as JSON data formatand nothing else so questions can be easily extracted like \"question: What is the role of regional internet service providers (RISPs) in the network hierarchy?\" ")
+prompts.append("Give as JSON data format and nothing else even on the start so questions can be easily extracted like.The pattern for question is: \"question: What is the role of regional internet service providers (RISPs) in the network hierarchy?\" ")
       
 #Joins all the individual prompts into single prompt
 for j in prompts:
@@ -111,8 +110,6 @@ data = json.loads(json_data)
 questions = []
 for section in data.values():
     for item in section:
-        print("Item")
-        print(item)
         questions.append(item["question"])
 
 #Prints Questions
