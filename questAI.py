@@ -27,9 +27,9 @@ subject  = "COURSE : 21UP3CPSTA01 :PROBABILITY AND STATISTICS"
 
 #This holds the number of questions and mark for each question in each section.
 #This should be made as user input
-questionNumber = [10,6,4]
-markSection    = [1,2,5]
-sectionNumber = 3
+questionNumber = [15,10,6,1]
+markSection    = [1,10,15,25]
+sectionNumber = 4
 
 
 
@@ -84,9 +84,11 @@ finalPrompt='' #Final combined prompt
 prompts = [] #Holds all the prompts for each section 
 prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique no matter what.No no no same questions.The criterias are:")
 for i in range(0,sectionNumber):
+    print(i)
     k=i+1
     prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
-prompts.append("Give each section as individual python list.Also give only correct number of questions in each section. Give as JSON data formatand nothing else so questions can be easily extracted")
+prompts.append("Also give only correct number of questions in each section. Give as JSON data formatand nothing else so questions can be easily extracted like \"question: What is the role of regional internet service providers (RISPs) in the network hierarchy?\" ")
+      
 #Joins all the individual prompts into single prompt
 for j in prompts:
     finalPrompt+=j
@@ -100,8 +102,8 @@ response1 = response.text
 print(response.text)
 #Using JSON code
 json_data = response1
-json_data = json_data.split('\n')[1:-1]
-json_data = '\n'.join(json_data)
+#json_data = json_data.split('\n')[1:-1]
+#json_data = '\n'.join(json_data)
 # Provided JSON-formatted string output
 # Parse the JSON string into a Python dictionary
 data = json.loads(json_data)
@@ -169,7 +171,6 @@ def create_question_paper(file_path, questions):
 
     for i in range(0,sectionNumber):
         section = "Section "+str((i+1))
-        print(section)
         # Add customized section heading with increased spacing, font size, and color
         section_heading_style = heading_style.clone('CustomHeadingSection')
         section_heading_style.spaceAfter = 10  # Adjust spacing for section headings
