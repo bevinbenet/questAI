@@ -86,7 +86,7 @@ prompts.append("Create questions on the criteria based on the text \" "+textbook
 for i in range(0,sectionNumber):
     k=i+1
     prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
-prompts.append("Give each section as individual python list.Also give only correct number of questions in each section. Give as JSON data format")
+prompts.append("Give each section as individual python list.Also give only correct number of questions in each section. Give as JSON data formatand nothing else so questions can be easily extracted")
 #Joins all the individual prompts into single prompt
 for j in prompts:
     finalPrompt+=j
@@ -97,7 +97,7 @@ response = model.generate_content(prompt_parts)
 response1 = response.text
 
 #prints the result
-#print(response.text)
+print(response.text)
 #Using JSON code
 json_data = response1
 json_data = json_data.split('\n')[1:-1]
@@ -109,6 +109,8 @@ data = json.loads(json_data)
 questions = []
 for section in data.values():
     for item in section:
+        print("Item")
+        print(item)
         questions.append(item["question"])
 
 #Prints Questions
@@ -162,9 +164,12 @@ def create_question_paper(file_path, questions):
     content.append(Spacer(1, 20))  # Add space before the first section heading
 
     # Add sections with questions
-    sections = [("Section A", 8), ("Section B", 6), ("Section C", 2)]
+    #sections = [("Section A", 8), ("Section B", 6), ("Section C", 2)]
+    
 
-    for section, num_questions in sections:
+    for i in range(0,sectionNumber):
+        section = "Section "+str((i+1))
+        print(section)
         # Add customized section heading with increased spacing, font size, and color
         section_heading_style = heading_style.clone('CustomHeadingSection')
         section_heading_style.spaceAfter = 10  # Adjust spacing for section headings
@@ -172,7 +177,7 @@ def create_question_paper(file_path, questions):
         content.append(Spacer(1, 20))  # Increase spacing after each section heading
 
         # Add questions with customized font size
-        for i in range(1, num_questions + 1):
+        for i in range(1, questionNumber[i] + 1):
             if questions:
                 question_text = f"{i}. {questions.pop(0)}"  # Extract question from the list
                 content.append(Paragraph(question_text, question_style))
@@ -182,7 +187,7 @@ def create_question_paper(file_path, questions):
     doc.build(content)
 
 if __name__ == "__main__":
-    output_file = "questionPaper1.pdf"
+    output_file = "questionPaper2.pdf"
 
     # Create the question paper
     create_question_paper(output_file, questions)
