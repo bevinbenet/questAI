@@ -1,14 +1,12 @@
-import pprint
+import requests
 import json
 import google.generativeai as genai
-import nltk
-from nltk.tokenize import sent_tokenize
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-genai.configure(api_key="AIzaSyA0VeSCntKzB9PVXxK4bujq1JCwiGsVT_8")
+genai.configure(api_key="")
 
 #Code for connecting using API and running prompts
 try:
@@ -34,53 +32,42 @@ sectionNumber = 3
 
 
 #Text based on which question is created.
-textbook = """
-Regional Internet Service Providers
-Regional internet service providers or regional ISPs are smaller ISPs that are connected
-to one or more national ISPs. They are at the third level of the hierarchy with a smaller
-data rate.
-Local Internet Service Providers
-Local Internet service providers provide direct service to the end users. The local
-ISPs can be connected to regional ISPs or directly to national ISPs. Most end users are
-connected to the local ISPs. Note that in this sense, a local ISP can be a company that
-just provides Internet services, a corporation with a network that supplies services to its
-own employees, or a nonprofit organization, such as a college or a university, that runs
-its own network. Each of these local ISPs can be connected to a regional or national
-service provider.
+textbook = " "
 
-1.4 PROTOCOLS AND STANDARDS
-In this section, we define two widely used terms: protocols and standards. First, we
-define protocol, which is synonymous with rule. Then we discuss standards, which are
-agreed-upon rules.
-Protocols
-In computer networks, communication occurs between entities in different systems. An
+# Replace 'YOUR_API_KEY' with your actual API key
+api_key = ''
 
-entity is anything capable of sending or receiving information. However, two entities can-
-not simply send bit streams to each other and expect to be understood. For communication
+# Specify the path to the image file on your system
+image_path = 'textbookImg3.png'
 
-to occur, the entities must agree on a protocol. A protocol is a set of rules that govern data
-communications. A protocol defines what is communicated, how it is communicated, and
-when it is communicated. The key elements of a protocol are syntax, semantics, and timing.
-o Syntax. The term syntax refers to the structure or format of the data, meaning the
-order in which they are presented. For example, a simple protocol might expect the
-first 8 bits of data to be the address of the sender, the second 8 bits to be the address
-of the receiver, and the rest of the stream to be the message itself.
-o Semantics. The word semantics refers to the meaning of each section of bits.
-How is a particular pattern to be interpreted, and what action is to be taken based
-on that interpretation? For example, does an address identify the route to be taken
-or the final destination of the message?
-o Timing. The term timing refers to two characteristics: when data should be sent
-and how fast they can be sent. For example, if a sender produces data at 100 Mbps
-but the receiver can process data at only 1 Mbps, the transmission will overload the
-receiver and some data will be lost.
-Standards
-Standards are essential in creating and maintaining an open and competitive market for
-equipment manufacturers and in guaranteeing national and international interoperability
-of data and telecommunications technology and processes. Standards provide guidelines"""
+# Open the image file
+with open(image_path, 'rb') as file:
+    image_data = file.read()
+
+url = "https://api.apilayer.com/image_to_text/upload"
+
+headers = {
+    'apikey': api_key
+}
+
+# The body of the request contains the image data
+body = image_data
+
+response = requests.post(url, headers=headers, data=body)
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Print the response content
+    textbook = response.text
+    #print(response.text)
+
+else:
+    # Print the error message if the request failed
+    print("Error:", response.text)
 
 
-
-finalPrompt='' #Final combined prompt
+#Final combined prompt
+finalPrompt='' 
 prompts = [] #Holds all the prompts for each section 
 prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique .The criterias are:")
 for i in range(0,sectionNumber):
@@ -98,7 +85,7 @@ response = model.generate_content(prompt_parts)
 response1 = response.text
 
 #prints the result
-print(response.text)
+#print(response.text)
 #Using JSON code
 json_data = response1
 #json_data = json_data.split('\n')[1:-1]
