@@ -6,7 +6,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-genai.configure(api_key="")
+genai.configure(api_key="AIzaSyA0VeSCntKzB9PVXxK4bujq1JCwiGsVT_8")
 
 #Code for connecting using API and running prompts
 try:
@@ -35,7 +35,7 @@ sectionNumber = 3
 textbook = " "
 
 # Replace 'YOUR_API_KEY' with your actual API key
-api_key = ''
+api_key = 'HYb4xri7Au9GhGs4TsraJIrSWZQY9vtn'
 
 # Specify the path to the image file on your system
 image_path = 'textbookImg3.png'
