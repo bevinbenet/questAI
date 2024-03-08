@@ -28,7 +28,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
     #This holds the number of questions and mark for each question in each section.
     #This should be made as user input
 
-    sectionNumber = secNum
+    sectionNumber = int(secNum)
     questionNumber = []
     markSection = []
 
@@ -71,7 +71,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
     if response.status_code == 200:
         # Print the response content
         textbook = response.text
-        #print(response.text)
+        print(response.text)
 
     else:
         # Print the error message if the request failed
@@ -83,7 +83,6 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
     prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique .The criterias are:")
     for i in range(0,sectionNumber):
         k=i+1
-        print("working")
         prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
     prompts.append("Give as JSON data format and nothing else even on the start so questions can be easily extracted like.Dont give the word json initially in the response.Dont divide the json data into section. The format should be:{\"questions\":[{\"question\":\"In the Internet model, which layer is responsible for error detection and correction?\",\"section\":1,\"marks\":1}...Rest of the questions..]}")
     print("outside loop")
@@ -105,16 +104,17 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
     # Provided JSON-formatted string output
     # Parse the JSON string into a Python dictionary
     data = json.loads(json_data)
-    print("data values outside")
+   
     questions = []
     for section in data.values():
-        print("data values inside")
+        print("outside json")
         for item in section:
-            print("data values inside2")
             questions.append(item["question"])
-
+            print("Inside json")
+   
     #Prints Questions
     def create_question_paper(file_path, questions):
+        print("Inside ques function")
         # Create a PDF document with A4 size
         doc = SimpleDocTemplate(file_path, pagesize=letter, leftMargin=40, rightMargin=40, topMargin=30, bottomMargin=30)
 
@@ -168,6 +168,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
         
 
         for i in range(0,sectionNumber):
+            print("Inside section number")
             section = "Section "+str((i+1))
             # Add customized section heading with increased spacing, font size, and color
             section_heading_style = heading_style.clone('CustomHeadingSection')
@@ -177,22 +178,21 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks):
 
             # Add questions with customized font size
             for i in range(1, int(questionNumber[i]) + 1):
+                print("inside question loop")
                 if questions:
                     question_text = f"{i}. {questions.pop(0)}"  # Extract question from the list
                     content.append(Paragraph(question_text, question_style))
             content.append(Spacer(1, 20)) #Spacing before each section heading
         # Build the PDF document
         doc.build(content)
+    output_file = "questionPaper2.pdf"
+    create_question_paper(output_file, questions)
+   # if __name__ == "__main__":
+   #     output_file = "questionPaper2.pdf"
+   #     print("question creator loop")
+   #     create_question_paper(output_file, questions)
+   # else:
+   #     print("Not working")
 
-    if __name__ == "__main__":
-        output_file = "questionPaper.pdf"
 
-        # Create the question paper
-        create_question_paper(output_file, questions)
-    """ except Exception as e:
-        print(f"Error generating question paper: {e}")
-        return {'success': False, 'error': str(e)}
- """
-imgName= ['text1.png','text2.png']
-quesMarks = [{'section': '10', 'marks': '1'}, {'section': '5', 'marks': '2'}]
-generate_question_paper("bevin","bevin","bevin",2,'text1.png',quesMarks)
+    

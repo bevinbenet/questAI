@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your HTML Document</title>
+    <!-- Linking external CSS file -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+</head>
+<body>
+    <div class="demo-page">
+        <div class="demo-page-navigation">
+          <nav>
+            <ul>
+                <li>
+                    <a href="#quest-ai">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                      </svg>
+                     Quest AI</a>
+                  </li>
+              <li>
+                <a href="#headings">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                    <polyline points="2 17 12 22 22 17" />
+                    <polyline points="2 12 12 17 22 12" />
+                  </svg>
+                  Headings</a>
+              </li>
+              <li>
+                <a href="#exam-time-marks">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                    <polyline points="2 17 12 22 22 17" />
+                    <polyline points="2 12 12 17 22 12" />
+                  </svg>
+                  Time and Marks</a>
+              </li>
+              <li>
+                <a href="#section-marks">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify">
+                    <line x1="21" y1="10" x2="3" y2="10" />
+                    <line x1="21" y1="6" x2="3" y2="6" />
+                    <line x1="21" y1="14" x2="3" y2="14" />
+                    <line x1="21" y1="18" x2="3" y2="18" />
+                  </svg>
+                  Section and Marks</a>
+              </li>
+              <li>
+                <a href="#file-upload">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square">
+                    <polyline points="9 11 12 14 22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                  Textbook Page Upload</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <main class="demo-page-content">
+          
+          <section>
+            <div class="href-target" id="quest-ai"></div>
+            <h1 class="package-name">Quest AI</h1>
+            <p>
+              Want to create a  school like question paper which is very topic specific?
+              Use the services of <strong>QuestAI</strong>-AI based question generation app
+              to create the question paper 😄
+            </p>
+            <strong>In a nutshell:</strong>
+            <ul>
+              <li>Give page image as input.</li>
+              <li>Give number of sections.</li>
+              <li>Give mark of each question in a section.</li>
+              <li>Give number of questions in each section</li>
+            </ul>
+            <p>Enter the specific values in the specific boxes</p>
+          </section>
+
+          <form action="/submit" method="post" enctype="multipart/form-data">
+          <section>
+            <div class="href-target" id="headings"></div>
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              Headings
+            </h1>
+            <p>
+             Give the specific headings for the website as asked.
+            </p>
+      
+            <div class="nice-form-group">
+              <label>Institution Name</label>
+              <input type="text" placeholder="Your institution Name" name="institution-name" />
+            </div>
+      
+            <div class="nice-form-group">
+              <label>Exam Name</label>
+              <small>Enter the name of the exam being written</small>
+              <input type="text" placeholder="Enter exam name" name="exam-name" />
+            </div>
+      
+            <div class="nice-form-group">
+              <label>Subject Name</label>
+              <input type="text" placeholder="Enter subject name" name="subject-name" />
+            </div>
+          </section>
+
+          <section>
+            <div class="href-target" id="exam-time-marks"></div>
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              Time and Total
+            </h1>
+            <p>
+             Enter the time duration of exam and the total marks.
+            </p>
+      
+            <div class="nice-form-group">
+              <label>Total Duration</label>
+              <input type="text" placeholder="Enter duration" name="exam-duration" required/>
+            </div>
+      
+            <div class="nice-form-group">
+              <label>Total Marks</label>
+              <input type="text" placeholder="Enter total marks" name="exam-marks" />
+            </div>
+          </section>
+      
+          <section>
+            <div class="href-target" id="section-marks"></div>
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              Section and Marks
+            </h1>
+            <p>
+             Enter the time duration of exam and the total marks.
+            </p>
+      
+            <div class="nice-form-group">
+              <label>Section Number</label>
+              <input type="number" placeholder="Enter the number of sections" id="num-of-sections" name="numSection" />
+            </div>
+            <div class="nice-form-group" id="Mark-question-input"></div>
+          </section>
+
+          <section>
+            <div class="href-target" id="file-upload"></div>
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              File Upload
+            </h1>
+            <p>
+             Upload the textbook page image 
+            </p>
+         
+            <div class="nice-form-group">
+                <label>File upload</label>
+                <input type="file" name="files" multiple/>
+            </div>
+          </section>
+          <button type="submit">Submit</button>
+          </form>
+
+        </main>
+        
+      </div>
+      <footer>Made with ♥ for CSS</footer>
+</body>
+
+<script>
+
+    const mainInput = document.getElementById('num-of-sections');
+    const additionalInputs = document.getElementById('Mark-question-input');
+
+    mainInput.addEventListener('input', generateInputFields);
+    function generateInputFields() {
+        additionalInputs.innerHTML = '';
+        var inputCount = mainInput.value;
+        if (inputCount > 0 && Number.isInteger(parseFloat(inputCount))) {
+            for (var i = 0; i < inputCount; i++) {
+                var label = document.createElement("label");
+                label.innerHTML = "Section "+ (i+1)+"            : ";
+                
+
+                var input = document.createElement("input");
+                label.setAttribute("for", input);
+                input.type = "number";
+                input.name="section"+(i);
+                input.placeholder = "Number of questions ";
+                input.style.marginRight = "10px";
+
+                var input2 = document.createElement("input");
+                input2.type = "number";
+                input2.name= "markSection"+(i);
+                input2.placeholder = "mark of each question ";
+
+
+
+                additionalInputs.appendChild(label);
+                additionalInputs.appendChild(input);
+                additionalInputs.appendChild(input2);
+                additionalInputs.appendChild(document.createElement("br"));
+                additionalInputs.appendChild(document.createElement("br"));
+            }
+
+        }
+    }
+    //Code for sending data to the app.py
+    
+</script>
+</html>
