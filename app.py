@@ -1,6 +1,6 @@
 import sys
 import os
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request , send_file
 from questAI import generate_question_paper
 app = Flask(__name__)
 
@@ -20,7 +20,6 @@ def submit():
     exam_duration= request.form.get('exam-duration')
     exam_marks = request.form.get('exam-marks')
     num_of_sections = request.form.get('numSection')
-    section1 = request.form.get('section1')
 
     
     for i in range(0,int(num_of_sections)):
@@ -44,14 +43,18 @@ def submit():
         print("No files received")
         return "No files received", 400
     try:
-        generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,image_path,sectionQuesMarks)
-
+       questionPaper=generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,image_path,sectionQuesMarks,exam_duration, exam_marks)
+       questionPaper2 = "/Users/bevinbenet/Desktop/college/Quest-AI/questionPaper2.pdf"
+       return send_file(questionPaper2, as_attachment=True, mimetype='application/pdf')
     except:
         return "Form submitted successfully but no Ques Created"
     
-    return "Form submitted successfully"
+    
+    
+    
+    #return render_template('download.html',pdf_file_path=questionPaper2 ,mimetype='application/pdf')
+    
         
-app.config['SERVER_TIMEOUT'] = 120
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
 
