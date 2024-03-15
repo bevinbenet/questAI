@@ -1,12 +1,14 @@
 import requests
 import json
+import pytesseract
+from PIL import Image
 import google.generativeai as genai
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
+def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time):
 
     genai.configure(api_key="AIzaSyA0VeSCntKzB9PVXxK4bujq1JCwiGsVT_8")
 
@@ -25,7 +27,6 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
     program  =  prog
     subject  = sub
     timeExam = time
-    marksTotal  = marks
 
     #This holds the number of questions and mark for each question in each section.
     #This should be made as user input
@@ -33,18 +34,44 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
     sectionNumber = int(secNum)
     questionNumber = []
     markSection = []
-
+    total=0
     for item in quesMarks:
         section = item['section']
         mark = item['marks']
         questionNumber.append(section)
         markSection.append(mark)
 
+    for item in quesMarks:
+        section = item['section']
+        mark = item['marks']
+        total += int(section) * int(mark)
+    print(total)
+
+
 
 
     #Text based on which question is created.
     textbook = " "
+    image_path = imgName
+    try:
+        pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'
+        # Open the image
+        img = Image.open(image_path)
 
+        # Extract text using Tesseract
+        text = pytesseract.image_to_string(img)
+
+        # Print the extracted text
+        print(text)
+        textbook = text
+
+    except FileNotFoundError:
+        print("Error: Image file not found. Please check the path.")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    '''
     # Replace 'YOUR_API_KEY' with your actual API key
     api_key = 'HYb4xri7Au9GhGs4TsraJIrSWZQY9vtn'
 
@@ -74,7 +101,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
 
     else:
         # Print the error message if the request failed
-        print("Error:", response.text)
+        print("Error:", response.text)'''
 
     #Final combined prompt
     finalPrompt='' 
@@ -136,6 +163,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
             fontSize=15,    # Change font size
             textColor=colors.black,  # Change text color
             alignment=1,     # Center-aligned
+            fontName='Times-Roman', 
             fontWeight='Bold'  # Make text bold
         )
 
@@ -149,7 +177,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
         content.append(Spacer(1, 10))  # Increase spacing above the third section heading
 
         # Add time and marks information with time left-aligned and marks right-aligned on the same line
-        time_marks_table_data = [[timeExam+" hours", marksTotal+" marks"]]
+        time_marks_table_data = [[timeExam+" hours", str(total)+" marks"]]
         time_marks_table = Table(time_marks_table_data, colWidths=[250, 250])
         time_marks_table.setStyle(TableStyle([('ALIGN', (0, 0), (0, 0), 'LEFT'),
                                             ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
@@ -176,7 +204,7 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time,marks):
         # Build the PDF document
         doc.build(content)
         return output_file
-    output_file = "questionPaper2.pdf"
+    output_file = "questionPaper.pdf"
     create_question_paper(output_file, questions)
 
     

@@ -43,9 +43,9 @@ def submit():
         print("No files received")
         return "No files received", 400
     try:
-       questionPaper=generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,image_path,sectionQuesMarks,exam_duration, exam_marks)
-       questionPaper2 = "/Users/bevinbenet/Desktop/college/Quest-AI/questionPaper2.pdf"
-       return send_file(questionPaper2, as_attachment=True, mimetype='application/pdf')
+       questionPaper=generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,image_path,sectionQuesMarks,exam_duration)
+       questionPaperPath = "/Users/bevinbenet/Desktop/college/Quest-AI/questionPaper.pdf"
+       return send_file( questionPaperPath , as_attachment=True, mimetype='application/pdf')
     except:
         return "Form submitted successfully but no Ques Created"
     
@@ -56,5 +56,5 @@ def submit():
     
         
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=8085)
 
