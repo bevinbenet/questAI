@@ -43,7 +43,7 @@ def submit():
         print("No files received")
         return "No files received", 400
     try:
-       questionPaper=generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,image_path,sectionQuesMarks,exam_duration)
+       questionPaper=generate_question_paper(exam_name,institution_name,subject_name,num_of_sections,imageName,sectionQuesMarks,exam_duration)
        questionPaperPath = "/Users/bevinbenet/Desktop/college/Quest-AI/questionPaper.pdf"
        return send_file( questionPaperPath , as_attachment=True, mimetype='application/pdf')
     except:

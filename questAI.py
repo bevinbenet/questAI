@@ -8,7 +8,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time):
+def generate_question_paper(eName,prog,sub,secNum,imgList,quesMarks,time):
 
     genai.configure(api_key="AIzaSyA0VeSCntKzB9PVXxK4bujq1JCwiGsVT_8")
 
@@ -52,82 +52,54 @@ def generate_question_paper(eName,prog,sub,secNum,imgName,quesMarks,time):
 
     #Text based on which question is created.
     textbook = " "
-    image_path = imgName
-    try:
-        pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'
-        # Open the image
-        img = Image.open(image_path)
+    ifImage = True
+    for path in imgList:
+        image_path = path
+        print(image_path)
+        try:
+            pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'
+            # Open the image
+            img = Image.open(image_path)
 
-        # Extract text using Tesseract
-        text = pytesseract.image_to_string(img)
+            # Extract text using Tesseract
+            text = pytesseract.image_to_string(img)
 
-        # Print the extracted text
-        print(text)
-        textbook = text
+            # Print the extracted text
+            textbook += text
 
-    except FileNotFoundError:
-        print("Error: Image file not found. Please check the path.")
+        except FileNotFoundError:
+            print("Error: Image file at ",path," not found. Please check the path.")
+            ifImage = False
+        except Exception as e:
+            print(f"Error: {e}")
+            ifImage = False
 
-    except Exception as e:
-        print(f"Error: {e}")
-
-    '''
-    # Replace 'YOUR_API_KEY' with your actual API key
-    api_key = 'HYb4xri7Au9GhGs4TsraJIrSWZQY9vtn'
-
-    # Specify the path to the image file on your system
-    image_path = imgName
-
-    # Open the image file
-    with open(image_path, 'rb') as file:
-        image_data = file.read()
-
-    url = "https://api.apilayer.com/image_to_text/upload"
-
-    headers = {
-        'apikey': api_key
-    }
-
-    # The body of the request contains the image data
-    body = image_data
-
-    response = requests.post(url, headers=headers, data=body)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Print the response content
-        textbook = response.text
-        #print(response.text)
-
-    else:
-        # Print the error message if the request failed
-        print("Error:", response.text)'''
-
-    #Final combined prompt
-    finalPrompt='' 
-    prompts = [] #Holds all the prompts for each section 
-    prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique .The criterias are:")
-    for i in range(0,sectionNumber):
-        k=i+1
-        prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
-    prompts.append("Give as JSON data format and nothing else even on the start so questions can be easily extracted like.Strictly follow the format. The format should be:{\"questions\":[{\"question\":\"In the Internet model, which layer is responsible for error detection and correction?\",\"section\":1,\"marks\":1}...Rest of the questions..]}")
-    #Joins all the individual prompts into single prompt
-    for j in prompts:
-        finalPrompt+=j
-    #print(finalPrompt)
-    #Executes the prompt 
-    prompt_parts = finalPrompt
-    response = model.generate_content(prompt_parts)
-    response1 = response.text
-
+    if(ifImage==True):
+        #Final combined prompt
+        print("Inside Image")
+        finalPrompt='' 
+        prompts = [] #Holds all the prompts for each section 
+        prompts.append("Create questions on the criteria based on the text \" "+textbook+" \" which is from a textbook. Each question should be very unique .The criterias are:")
+        for i in range(0,sectionNumber):
+            k=i+1
+            prompts.append("Create "+str(questionNumber[i])+" questions for section "+str(k)+" with each question having "+str(markSection[i])+" marks. ")
+        prompts.append("Give as JSON data format and nothing else even on the start so questions can be easily extracted like.Strictly follow the format. The format should be:{\"questions\":[{\"question\":\"In the Internet model, which layer is responsible for error detection and correction?\",\"section\":1,\"marks\":1}...Rest of the questions..]}")
+        #Joins all the individual prompts into single prompt
+        for j in prompts:
+            finalPrompt+=j
+        #print(finalPrompt)
+        #Executes the prompt 
+        prompt_parts = finalPrompt
+        print("Final Prompt")
+        print(finalPrompt)
+        response = model.generate_content(prompt_parts)
+        response1 = response.text
+    
     #prints the result
-    #print(response.text)
+    print("Reponse:")
+    print(response.text)
     #Using JSON code
     json_data = response1
-    #json_data = json_data.split('\n')[1:-1]
-    #json_data = '\n'.join(json_data)
-    # Provided JSON-formatted string output
-    # Parse the JSON string into a Python dictionary
     data = json.loads(json_data)
    
     questions = []
